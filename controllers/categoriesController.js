@@ -16,13 +16,14 @@ export async function postCategories(req, res) {
     return;
   }
   const { rows } = await connection.query(
-    `SELECT * FROM categories WHERE name = '${name}'`,
+    `SELECT * FROM categories WHERE name = $1`,
+    [name],
   );
   // Return undefined if category dont exist
   if (rows[0]) {
     res.sendStatus(409);
     return;
   }
-  connection.query(`INSERT INTO categories (name) VALUES ('${name}')`);
+  connection.query(`INSERT INTO categories (name) VALUES ($1)`, [name]);
   res.sendStatus(201);
 }
