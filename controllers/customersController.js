@@ -2,17 +2,20 @@ import joi from 'joi';
 import connection from '../db.js';
 
 export async function getCustomers(req, res) {
-  const { id } = req.params;
-  if (id) {
-    const { rows } = await connection.query(
-      'SELECT * FROM customers WHERE id = $1',
-      [id],
-    );
-    res.status(200).send(rows);
-    return;
-  }
   const { rows } = await connection.query('SELECT * FROM customers');
   res.status(200).send(rows);
+}
+export async function getCustomerById(req, res) {
+  const { id } = req.params;
+  const { rows } = await connection.query(
+    'SELECT * FROM customers WHERE id = $1',
+    [id],
+  );
+  if (!rows[0]) {
+    res.sendStatus(404);
+    return;
+  }
+  res.status(200).send(rows[0]);
 }
 export async function postCustomers(req, res) {
   const { name, phone, cpf, birthday } = req.body;
@@ -71,7 +74,7 @@ export async function putCustomers(req, res) {
     'SELECT * FROM customers WHERE cpf = $1',
     [cpf],
   );
-  if (cpfQuery[0]) {
+  if (cpfQuery[0] && cpfQuery[0].cpf !== cpf) {
     res.sendStatus(409);
     return;
   }

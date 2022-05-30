@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import {
+  getCustomerById,
   getCustomers,
   postCustomers,
   putCustomers,
@@ -8,7 +9,8 @@ import {
 
 const customersRouter = Router();
 
-customersRouter.get('/customers/:id?', getCustomers);
+customersRouter.get('/customers', getCustomers);
+customersRouter.get('/customers/:id', getCustomerById);
 customersRouter.post('/customers', postCustomers);
 customersRouter.put('/customers/:id', putCustomers);
 
