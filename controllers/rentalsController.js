@@ -67,14 +67,14 @@ export async function postRentals(req, res) {
     [gameId, customerId],
   );
 
-  // prices/date stuffs
-  const price = queryCustomersAndGames[0].pricePerDay * daysRented;
-  const dateNow = dayjs().locale('pt-br').format('YYYY-MM-DD');
-
   if (!queryCustomersAndGames[0]) {
     res.sendStatus(400);
     return;
   }
+  // prices/date stuffs
+  const price = queryCustomersAndGames[0].pricePerDay * daysRented;
+  const dateNow = dayjs().locale('pt-br').format('YYYY-MM-DD');
+
   await connection.query(
     `INSERT INTO rentals ("customerId", "gameId", "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") 
   VALUES ($1, $2, $3, $4, null, $5, null)`,
@@ -116,5 +116,19 @@ export async function returnRentals(req, res) {
   res.sendStatus(200);
 }
 export async function deleteRentals(req, res) {
-  console.log('delete funcionando');
+  const { id } = req.params;
+  const { rows: queryRentals } = await connection.query(
+    'SELECT * FROM rentals WHERE id = $1',
+    [id],
+  );
+  if (!queryRentals[0]) {
+    res.sendStatus(404);
+    return;
+  }
+  if (!queryRentals[0].returnDate) {
+    res.sendStatus(400);
+    return;
+  }
+  await connection.query('DELETE FROM rentals WHERE id = $1', [id]);
+  res.sendStatus(200);
 }
