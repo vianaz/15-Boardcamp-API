@@ -2,6 +2,15 @@ import joi from 'joi';
 import connection from '../db.js';
 
 export async function getCustomers(req, res) {
+  const { id } = req.params;
+  if (id) {
+    const { rows } = await connection.query(
+      'SELECT * FROM customers WHERE id = $1',
+      [id],
+    );
+    res.status(200).send(rows);
+    return;
+  }
   const { rows } = await connection.query('SELECT * FROM customers');
   res.status(200).send(rows);
 }

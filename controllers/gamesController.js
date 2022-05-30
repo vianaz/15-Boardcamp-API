@@ -20,7 +20,7 @@ export async function postGames(req, res) {
     return;
   }
   const { rows: categoryIdQuery } = await connection.query(
-    `SELECT * FROM games WHERE "categoryId" = $1`,
+    `SELECT * FROM categories WHERE id = $1`,
     [categoryId],
   );
   const { rows: nameQuery } = await connection.query(
@@ -28,6 +28,7 @@ export async function postGames(req, res) {
     [name],
   );
   if (!categoryIdQuery[0]) {
+    console.log(categoryId[0]);
     res.sendStatus(400);
     return;
   }
@@ -39,5 +40,5 @@ export async function postGames(req, res) {
     'INSERT INTO games (name, image, "stockTotal", "categoryId", "pricePerDay") VALUES ($1,$2,$3,$4,$5)',
     [name, image, stockTotal, categoryId, pricePerDay],
   );
-  res.sendStatus(201)
+  res.sendStatus(201);
 }
