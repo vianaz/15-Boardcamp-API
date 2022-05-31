@@ -3,7 +3,7 @@
   [![wakatime](https://wakatime.com/badge/user/81a93aa8-8a08-415d-9a4d-3d47638f0e82/project/388cf993-c005-4785-93b2-928093cc8cc7.svg)](https://wakatime.com/badge/user/81a93aa8-8a08-415d-9a4d-3d47638f0e82/project/388cf993-c005-4785-93b2-928093cc8cc7)
 
 <div align="center">
-    <img src="https://github.com/celso-patiri/15-Boardcamp/blob/main/web/src/assets/images/logo.png" alt="Logo" width="200">
+    <img src="https://github.com/vianaz/15-Boardcamp-API/blob/main/logo.png" alt="Logo" width="200">
   <h3 align="center">
      Board Game Rental Store
   </h3>
